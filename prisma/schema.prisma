@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum SubmissionStatus {
+  PENDING
+  ACCEPTED
+  WRONG_ANSWER
+  RUNTIME_ERROR
+  TIMEOUT
+}
+
+model User {
+  id           String       @id @default(cuid())
+  name         String?
+  email        String       @unique
+  passwordHash String
+  createdAt    DateTime     @default(now())
+  submissions  Submission[]
+  resetTokens  PasswordResetToken[]
+}
+
+model Problem {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  title       String
+  summary     String
+  difficulty  Difficulty
+  prompt      String
+  inputFormat String
+  outputFormat String
+  constraints String[]
+  starterCode String
+  createdAt   DateTime      @default(now())
+  topicId     String?
+  topic       Topic?        @relation(fields: [topicId], references: [id])
+  tags        ProblemTag[]
+  submissions Submission[]
+  examples    ProblemExample[]
+}
+
+model Tag {
+  id       String       @id @default(cuid())
+  name     String       @unique
+  problems ProblemTag[]
+}
+
+model Topic {
+  id        String    @id @default(cuid())
+  slug      String    @unique
+  title     String
+  category  String?
+  summary   String
+  theory    String
+  videoUrl  String
+  createdAt DateTime  @default(now())
+  problems  Problem[]
+}
+
+model ProblemTag {
+  problemId String
+  tagId     String
+  problem   Problem @relation(fields: [problemId], references: [id])
+  tag       Tag     @relation(fields: [tagId], references: [id])
+
+  @@id([problemId, tagId])
+}
+
+model Submission {
+  id         String           @id @default(cuid())
+  userId     String?
+  problemId  String
+  status     SubmissionStatus @default(PENDING)
+  runtimeMs  Int?
+  memoryMb   Float?
+  language   String           @default("python")
+  code       String
+  output     String
+  createdAt  DateTime         @default(now())
+
+  user       User?            @relation(fields: [userId], references: [id])
+  problem    Problem          @relation(fields: [problemId], references: [id])
+}
+
+model ProblemExample {
+  id          String   @id @default(cuid())
+  problemId   String
+  input       String
+  output      String
+  explanation String?
+  order       Int      @default(0)
+
+  problem     Problem  @relation(fields: [problemId], references: [id])
+
+  @@index([problemId])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
