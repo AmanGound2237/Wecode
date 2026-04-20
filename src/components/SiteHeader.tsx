@@ -15,46 +15,53 @@ export default async function SiteHeader() {
     .join("");
 
   return (
-    <header className="sticky top-0 z-30 border-b border-black/10 bg-[#fdf8ef]/80 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-green-900/30 bg-black/90 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div className="flex items-center justify-between">
-          <Link href="/" className="font-display text-lg tracking-tight">
-            Wecode
+          <Link
+            href="/"
+            className="font-mono text-lg font-bold tracking-tight text-green-400 glow-text-sm"
+          >
+            &gt; wecode_
           </Link>
         </div>
-        <nav className="flex flex-wrap items-center gap-3 text-sm font-medium">
+        <nav className="flex flex-wrap items-center gap-4 text-sm font-medium">
           <Link className="nav-link" href="/problems">
-            Problems
+            problems
+          </Link>
+          <Link className="nav-link" href="/uplink">
+            code&nbsp;with&nbsp;ai
           </Link>
           <Link className="nav-link" href="/learn">
-            Learn
+            learn
           </Link>
           <Link className="nav-link" href="/submissions">
-            Submissions
+            submissions
           </Link>
           {isAdmin ? (
             <Link className="nav-link" href="/admin">
-              Admin
+              admin
             </Link>
           ) : null}
           {session.user ? (
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-3">
               <Link className="nav-link" href="/profile">
-                Profile
+                profile
               </Link>
-              <div className="flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-2 py-1">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#2a9d8f] text-xs font-semibold text-white">
+              {/* Avatar chip */}
+              <div className="flex items-center gap-2 border border-green-900/40 bg-green-950/30 px-2 py-1">
+                <span className="flex h-6 w-6 items-center justify-center bg-green-500 font-mono text-xs font-bold text-black">
                   {initials || "U"}
                 </span>
-                <span className="hidden text-xs font-semibold uppercase tracking-[0.2em] text-[#b24a2e] sm:inline">
+                <span className="hidden font-mono text-xs font-semibold uppercase tracking-[0.15em] text-green-500 sm:inline">
                   {displayName}
                 </span>
               </div>
               <SignOutButton />
             </div>
           ) : (
-            <Link className="nav-link" href="/sign-in">
-              Sign in
+            <Link className="btn-primary py-2 px-4 text-xs" href="/sign-in">
+              [ sign in ]
             </Link>
           )}
         </nav>

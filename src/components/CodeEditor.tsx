@@ -14,12 +14,12 @@ type RunResponse = {
 
 export default function CodeEditor({ starterCode, slug }: CodeEditorProps) {
   const [code, setCode] = useState(starterCode);
-  const [output, setOutput] = useState("Run the sample tests to see output.");
+  const [output, setOutput] = useState("// Run the sample tests to see output.");
   const [isRunning, setIsRunning] = useState(false);
 
   const handleRun = async () => {
     setIsRunning(true);
-    setOutput("Running...");
+    setOutput("// Running...");
 
     try {
       const response = await fetch("/api/run", {
@@ -33,35 +33,34 @@ export default function CodeEditor({ starterCode, slug }: CodeEditorProps) {
       const data = (await response.json()) as RunResponse;
       setOutput(data.output);
     } catch (error) {
-      setOutput("Run failed. Please try again.");
+      setOutput("// Run failed. Please try again.");
     } finally {
       setIsRunning(false);
     }
   };
 
   return (
-    <div className="card-surface flex flex-col gap-4 rounded-3xl p-6">
+    <div className="card-surface flex flex-col gap-4 rounded-sm p-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Python editor</h3>
+        <h3 className="terminal-label">// python editor</h3>
         <button
           className="btn-primary"
           type="button"
           onClick={handleRun}
           disabled={isRunning}
         >
-          {isRunning ? "Running..." : "Run sample tests"}
+          {isRunning ? "[ running... ]" : "[ run tests ]"}
         </button>
       </div>
       <textarea
-        className="min-h-[220px] w-full rounded-2xl border border-black/10 bg-white/70 p-4 font-mono text-sm outline-none focus:border-[#2a9d8f] focus:ring-2 focus:ring-[#2a9d8f]/30"
+        className="min-h-[220px] w-full rounded-sm border border-green-900/40 bg-black/60 p-4 font-mono text-sm text-green-300 outline-none transition focus:border-green-500 focus:ring-1 focus:ring-green-500/30"
         value={code}
         onChange={(event) => setCode(event.target.value)}
+        spellCheck={false}
       />
-      <div className="rounded-2xl border border-black/10 bg-white/60 p-4 font-mono text-xs">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#2a9d8f]">
-          Output
-        </p>
-        <pre className="mt-3 whitespace-pre-wrap text-[#4b3f35]">
+      <div className="rounded-sm border border-green-900/30 bg-black/50 p-4">
+        <p className="terminal-label">// output</p>
+        <pre className="mt-3 whitespace-pre-wrap font-mono text-xs text-green-300">
           {output}
         </pre>
       </div>

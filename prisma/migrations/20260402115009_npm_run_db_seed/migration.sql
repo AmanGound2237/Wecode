@@ -1,4 +1,4 @@
-git commit -m "Initial commit"-- CreateTable
+-- CreateTable
 CREATE TABLE "ProblemExample" (
     "id" TEXT NOT NULL,
     "problemId" TEXT NOT NULL,

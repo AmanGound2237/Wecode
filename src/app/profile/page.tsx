@@ -15,16 +15,16 @@ export default async function ProfilePage() {
     return (
       <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-6 py-16">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#2a9d8f]">
-            Auth required
-          </p>
-          <h1 className="mt-2 text-3xl font-semibold">Sign in to view profile</h1>
-          <p className="mt-3 text-[#4b3f35]">
+          <p className="terminal-label">// auth required</p>
+          <h1 className="mt-2 font-mono text-3xl font-bold text-green-400 glow-text">
+            Sign in to view profile
+          </h1>
+          <p className="mt-3 text-gray-400">
             Your learning stats and history live in your profile.
           </p>
         </div>
         <Link className="btn-primary w-fit" href="/sign-in">
-          Sign in
+          [ sign in ]
         </Link>
       </div>
     );
@@ -108,61 +108,76 @@ export default async function ProfilePage() {
 
   return (
     <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col gap-10 px-6 py-12">
+      {/* Header */}
       <div className="flex flex-col gap-6">
         <div className="flex flex-wrap items-center gap-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#2a9d8f] text-xl font-semibold text-white">
+          <div className="flex h-16 w-16 items-center justify-center bg-green-500 font-mono text-xl font-bold text-black">
             {initials || "U"}
           </div>
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#2a9d8f]">
-              Profile
-            </p>
-            <h1 className="mt-2 text-3xl font-semibold">{displayName}</h1>
-            <p className="mt-2 text-sm text-[#4b3f35]">{user?.email}</p>
+            <p className="terminal-label">// profile</p>
+            <h1 className="mt-1 font-mono text-3xl font-bold text-green-400 glow-text">
+              {displayName}
+            </h1>
+            <p className="mt-1 font-mono text-sm text-gray-500">{user?.email}</p>
           </div>
         </div>
       </div>
 
+      {/* Stats row */}
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="card-surface rounded-3xl p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b24a2e]">
-            Solved
+        <div className="card-surface rounded-sm p-6">
+          <p className="terminal-label">// solved</p>
+          <p className="mt-4 font-mono text-4xl font-bold text-green-400 glow-text">
+            {solvedCount}
           </p>
-          <p className="mt-4 text-3xl font-semibold">{solvedCount}</p>
-          <p className="mt-2 text-sm text-[#4b3f35]">Problems solved</p>
+          <p className="mt-2 text-sm text-gray-500">problems solved</p>
         </div>
-        <div className="card-surface rounded-3xl p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b24a2e]">
-            Consistency
+        <div className="card-surface rounded-sm p-6">
+          <p className="terminal-label">// consistency</p>
+          <p className="mt-4 font-mono text-4xl font-bold text-green-400 glow-text">
+            {activeDays.size}
           </p>
-          <p className="mt-4 text-3xl font-semibold">{activeDays.size}</p>
-          <p className="mt-2 text-sm text-[#4b3f35]">Active days this month</p>
+          <p className="mt-2 text-sm text-gray-500">active days this month</p>
         </div>
-        <div className="card-surface rounded-3xl p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b24a2e]">
-            Difficulty mix
-          </p>
-          <div className="mt-4 flex flex-col gap-2 text-sm text-[#4b3f35]">
-            <div className="flex items-center justify-between">
-              <span>Easy</span>
-              <span className="font-semibold">{difficultyCounts.Easy}</span>
+        <div className="card-surface rounded-sm p-6">
+          <p className="terminal-label">// difficulty mix</p>
+          <div className="mt-4 flex flex-col gap-3 text-sm">
+            <div className="flex items-center justify-between border-b border-green-900/20 pb-2">
+              <span className="tag-easy font-mono text-xs uppercase tracking-wider">
+                easy
+              </span>
+              <span className="font-mono font-bold text-gray-300">
+                {difficultyCounts.Easy}
+              </span>
+            </div>
+            <div className="flex items-center justify-between border-b border-green-900/20 pb-2">
+              <span className="tag-medium font-mono text-xs uppercase tracking-wider">
+                medium
+              </span>
+              <span className="font-mono font-bold text-gray-300">
+                {difficultyCounts.Medium}
+              </span>
             </div>
             <div className="flex items-center justify-between">
-              <span>Medium</span>
-              <span className="font-semibold">{difficultyCounts.Medium}</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Hard</span>
-              <span className="font-semibold">{difficultyCounts.Hard}</span>
+              <span className="tag-hard font-mono text-xs uppercase tracking-wider">
+                hard
+              </span>
+              <span className="font-mono font-bold text-gray-300">
+                {difficultyCounts.Hard}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Topics + recent */}
       <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="card-surface rounded-3xl p-6">
-          <h2 className="text-xl font-semibold">Solved topics</h2>
-          <p className="mt-2 text-sm text-[#4b3f35]">
+        <div className="card-surface rounded-sm p-6">
+          <h2 className="font-mono text-xl font-bold text-green-400">
+            Solved topics
+          </h2>
+          <p className="mt-2 text-sm text-gray-500">
             Your top focus areas based on accepted submissions.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
@@ -171,31 +186,33 @@ export default async function ProfilePage() {
                 <TagPill key={tag} label={`${tag} (${count})`} />
               ))
             ) : (
-              <p className="text-sm text-[#4b3f35]">
+              <p className="text-sm text-gray-600">
                 Solve a problem to see topic stats.
               </p>
             )}
           </div>
         </div>
 
-        <div className="card-surface rounded-3xl p-6">
-          <h2 className="text-xl font-semibold">Recent accepted</h2>
+        <div className="card-surface rounded-sm p-6">
+          <h2 className="font-mono text-xl font-bold text-green-400">
+            Recent accepted
+          </h2>
           <div className="mt-4 grid gap-3">
             {acceptedSubmissions.slice(0, 6).map((submission) => (
               <div
                 key={submission.id}
-                className="rounded-2xl border border-black/10 bg-white/70 p-4"
+                className="border border-green-900/30 bg-black/40 p-3"
               >
-                <p className="text-sm font-semibold">
+                <p className="font-mono text-sm font-semibold text-gray-300">
                   {submission.problem.title}
                 </p>
-                <p className="mt-1 text-xs text-[#4b3f35]">
+                <p className="mt-1 font-mono text-xs text-gray-600">
                   {formatDate(submission.createdAt)}
                 </p>
               </div>
             ))}
             {!acceptedSubmissions.length ? (
-              <p className="text-sm text-[#4b3f35]">
+              <p className="text-sm text-gray-600">
                 No accepted runs yet. Solve a problem to populate this list.
               </p>
             ) : null}

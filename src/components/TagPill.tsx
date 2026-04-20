@@ -7,8 +7,8 @@ type TagPillProps = {
 export default function TagPill({ label, active, onClick }: TagPillProps) {
   const className = `tag-pill ${
     active
-      ? "bg-[#2a9d8f] text-white border-transparent"
-      : "bg-white/70 text-[#4b3f35]"
+      ? "bg-green-500/20 text-green-400 border-green-500"
+      : "text-gray-500 hover:text-green-400 hover:border-green-600"
   }`;
 
   if (onClick) {
