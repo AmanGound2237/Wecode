@@ -63,6 +63,8 @@ export async function POST(request: Request) {
       ]
         .filter(Boolean)
         .join("\n"),
+      error: errorOutput,
+      stderr: errorOutput,
     });
   } catch (error) {
     return Response.json(
