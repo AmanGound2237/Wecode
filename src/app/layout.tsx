@@ -4,6 +4,8 @@ import "./globals.css";
 import MatrixBackground from "@/components/MatrixBackground";
 import SiteHeader from "@/components/SiteHeader";
 
+import MatrixSanitizer from "@/components/MatrixSanitizer";
+
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
@@ -31,6 +33,7 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-black text-gray-300">
+        <MatrixSanitizer />
         <MatrixBackground />
         <div className="scanline-overlay" aria-hidden />
         <SiteHeader />
