@@ -1,10 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-if (!process.env.GEMINI_API_KEY) {
-  throw new Error("Missing GEMINI_API_KEY environment variable");
+if (!process.env.GEMINI_API_KEY2) {
+  throw new Error("Missing GEMINI_API_KEY2 environment variable");
 }
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY2);
 
 export async function POST(req: Request) {
   try {
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     }
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-pro",
+      model: "gemini-flash-latest",
       systemInstruction:
         "You are the Wecode AI Tutor. Provide concise, helpful coding explanations. Keep answers brief.",
     });
