@@ -3,8 +3,8 @@ import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import MatrixBackground from "@/components/MatrixBackground";
 import SiteHeader from "@/components/SiteHeader";
-
 import MatrixSanitizer from "@/components/MatrixSanitizer";
+import WeChatWidget from "@/components/WeChatWidget";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -40,6 +40,7 @@ export default function RootLayout({
         <main className="relative z-10 flex min-h-[calc(100vh-80px)] flex-1 flex-col">
           {children}
         </main>
+        <WeChatWidget />
       </body>
     </html>
   );
