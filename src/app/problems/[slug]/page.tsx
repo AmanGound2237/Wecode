@@ -2,6 +2,10 @@ import { notFound } from "next/navigation";
 import CodeEditor from "@/components/CodeEditor";
 import TagPill from "@/components/TagPill";
 import { getProblemDetail } from "@/lib/problems-db";
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 type ProblemDetailProps = {
   params: Promise<{
@@ -40,9 +44,11 @@ export default async function ProblemDetail({ params }: ProblemDetailProps) {
           <h1 className="font-mono text-3xl font-bold text-green-400 glow-text sm:text-4xl">
             {problem.title}
           </h1>
-          <p className="mt-3 max-w-3xl text-lg leading-relaxed text-gray-400">
-            {problem.summary}
-          </p>
+          <div className="mt-3 max-w-3xl text-lg leading-relaxed text-gray-400">
+            <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+              {problem.summary}
+            </ReactMarkdown>
+          </div>
         </div>
       </div>
 
@@ -51,9 +57,11 @@ export default async function ProblemDetail({ params }: ProblemDetailProps) {
         <div className="card-surface flex flex-col gap-6 rounded-sm p-6">
           <section className="flex flex-col gap-3">
             <h2 className="terminal-label">// prompt</h2>
-            <p className="text-sm leading-7 text-gray-300">
-              {problem.prompt}
-            </p>
+            <div className="text-sm leading-7 text-gray-300">
+              <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                {problem.prompt}
+              </ReactMarkdown>
+            </div>
           </section>
           <section className="grid gap-4 md:grid-cols-2">
             <div>
@@ -96,10 +104,12 @@ export default async function ProblemDetail({ params }: ProblemDetailProps) {
                       {example.output}
                     </p>
                     {example.explanation ? (
-                      <p className="mt-1 font-mono text-sm text-gray-400">
+                      <div className="mt-1 font-mono text-sm text-gray-400">
                         <span className="text-green-600">why:</span>{" "}
-                        {example.explanation}
-                      </p>
+                        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                          {example.explanation}
+                        </ReactMarkdown>
+                      </div>
                     ) : null}
                   </div>
                 ))}

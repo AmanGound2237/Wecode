@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 // Dynamically import CyberEditor — Monaco is large and must be client-only
 const CyberEditor = dynamic(() => import("@/components/CyberEditor"), {
@@ -83,9 +87,11 @@ function BreakdownPanel({
           <p className="mt-1.5 text-xs leading-relaxed text-gray-500">
             {Array.isArray(paper.authors) ? (paper.authors as string[]).join(", ") : paper.authors}
           </p>
-          <p className="mt-2 text-xs leading-relaxed text-gray-400">
-            {paper.abstract.slice(0, 280)}{paper.abstract.length > 280 ? "…" : ""}
-          </p>
+          <div className="mt-2 text-xs leading-relaxed text-gray-400">
+            <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+              {paper.abstract.slice(0, 280) + (paper.abstract.length > 280 ? "..." : "")}
+            </ReactMarkdown>
+          </div>
         </div>
 
         {/* Prerequisites */}
@@ -121,9 +127,11 @@ function BreakdownPanel({
                       <p className="font-mono text-xs font-semibold text-green-400">
                         {pre.title}
                       </p>
-                      <p className="mt-0.5 text-xs leading-relaxed text-gray-500">
-                        {pre.description}
-                      </p>
+                      <div className="mt-0.5 text-xs leading-relaxed text-gray-500">
+                        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                          {pre.description ?? ""}
+                        </ReactMarkdown>
+                      </div>
                       <span className="mt-1 inline-block font-mono text-[10px] uppercase tracking-widest text-green-700">
                         {pre.resourceType}
                       </span>
@@ -188,9 +196,11 @@ function BreakdownPanel({
                       {step.title}
                     </p>
                     {isActive && (
-                      <p className="mt-0.5 text-xs leading-relaxed text-gray-500 line-clamp-2">
-                        {step.description}
-                      </p>
+                      <div className="mt-0.5 text-xs leading-relaxed text-gray-500 line-clamp-2">
+                        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                          {step.description ?? ""}
+                        </ReactMarkdown>
+                      </div>
                     )}
                   </div>
                 </button>
@@ -274,9 +284,11 @@ function EditorPanel({
         <h3 className="mt-1 font-mono text-sm font-bold text-green-400">
           {step.title}
         </h3>
-        <p className="mt-1 text-xs leading-relaxed text-gray-500">
-          {step.description}
-        </p>
+        <div className="mt-1 text-xs leading-relaxed text-gray-500">
+          <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+            {step.description ?? ""}
+          </ReactMarkdown>
+        </div>
       </div>
 
       {/* Main content — code or hints */}
@@ -303,7 +315,11 @@ function EditorPanel({
                 }}
               >
                 <p className="terminal-label mb-1">hint {i + 1}</p>
-                <p className="text-xs leading-relaxed text-gray-400">{hint}</p>
+                <div className="text-xs leading-relaxed text-gray-400">
+                  <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                    {hint}
+                  </ReactMarkdown>
+                </div>
               </div>
             ))}
             {revealedHints < hints.length && (

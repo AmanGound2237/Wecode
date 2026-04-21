@@ -9,18 +9,17 @@ import Editor, { loader, type Monaco } from "@monaco-editor/react";
    ══════════════════════════════════════════════════════════════ */
 
 /** Called once before any editor mounts — registers the theme globally. */
-function registerCyberTheme(monaco: Monaco) {
-  monaco.editor.defineTheme("cyber-hacker", {
+function registerMatrixTheme(monaco: Monaco) {
+  monaco.editor.defineTheme("matrix-theme", {
     base: "vs-dark",
     inherit: false, // full override — nothing from vs-dark bleeds through
     rules: [
       // ── Base (variables, identifiers, plain text) ──
       { token: "", foreground: "00FF41", background: "000000" },
 
-      // ── Keywords: def, return, if, else, elif, for, while, class, import,
-      //             from, as, with, try, except, finally, pass, break, yield, lambda ──
-      { token: "keyword", foreground: "00b894", fontStyle: "bold" },
-      { token: "keyword.control", foreground: "00b894", fontStyle: "bold" },
+      // ── Keywords: def, return, for, in, etc. ──
+      { token: "keyword", foreground: "008F11", fontStyle: "bold" },
+      { token: "keyword.control", foreground: "008F11", fontStyle: "bold" },
       { token: "keyword.operator", foreground: "00cec9" },
 
       // ── Built-in functions: print, len, range, type, isinstance … ──
@@ -32,15 +31,15 @@ function registerCyberTheme(monaco: Monaco) {
       // ── Function/method calls (generic) ──
       { token: "entity.name.tag", foreground: "00FFFF" },
 
-      // ── Strings: muted amber-yellow — clearly distinct from green ──
-      { token: "string", foreground: "d4b896" },
+      // Strings: Pale Yellow
+      { token: "string", foreground: "FFFF99" },
       { token: "string.escape", foreground: "e17055" },
-      { token: "string.template", foreground: "d4b896" },
+      { token: "string.template", foreground: "FFFF99" },
 
-      // ── Comments: dark, fade into the background ──
-      { token: "comment", foreground: "1d5c35", fontStyle: "italic" },
-      { token: "comment.line", foreground: "1d5c35", fontStyle: "italic" },
-      { token: "comment.block", foreground: "1d5c35", fontStyle: "italic" },
+      // Comments: Dim Green
+      { token: "comment", foreground: "005522", fontStyle: "italic" },
+      { token: "comment.line", foreground: "005522", fontStyle: "italic" },
+      { token: "comment.block", foreground: "005522", fontStyle: "italic" },
 
       // ── Numbers ──
       { token: "number", foreground: "74b9ff" },
@@ -145,7 +144,7 @@ let themeRegistered = false;
 
 loader.init().then((monaco) => {
   if (!themeRegistered) {
-    registerCyberTheme(monaco);
+    registerMatrixTheme(monaco);
     themeRegistered = true;
   }
 });
@@ -218,10 +217,10 @@ export default function CyberEditor({
     monacoRef.current = monaco;
     // Ensure theme is set after mount (in case init() raced)
     if (!themeRegistered) {
-      registerCyberTheme(monaco);
+      registerMatrixTheme(monaco);
       themeRegistered = true;
     }
-    monaco.editor.setTheme("cyber-hacker");
+    monaco.editor.setTheme("matrix-theme");
   }
 
   return (
@@ -229,7 +228,7 @@ export default function CyberEditor({
       height="100%"
       language={language}
       value={value || DEMO_SNIPPET}
-      theme="cyber-hacker"
+      theme="matrix-theme"
       onMount={handleMount}
       onChange={(v) => onChange(v ?? "")}
       options={{
